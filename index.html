@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .somediv {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transition: all .35s;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="somediv">
+
+    </div>
+    
+    <script type="text/javascript" src="./jquery.js"></script>
+    <script>
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+        $('.somediv').click(() => {
+            if ($('.somediv').width() > 500) {
+                $('.somediv').css('width', 100 + 'px') 
+                return
+            }
+            $('.somediv').css('width', $('.somediv').width() + 100 + 'px')
+            $(".somediv").css("background-color", getRandomColor())
+        })
+        
+    </script>
+</body>
+</html>
