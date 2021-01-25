@@ -4,24 +4,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./flickity-master/dist/flickity.min.css">
     <style>
-        .somediv {
-            width: 200px;
-            height: 200px;
-            background-color: coral;
-            transition: all .35s;
-            cursor: pointer;
+        body {
+            margin: 0;
+            /* background-image: url('./bg1.png');
+            background-color: #156335; */
         }
+        #app {
+            font-family: Arial;
+            min-height: 100vh;
+        }
+        .sidebar {
+            flex-grow: 0;
+            padding: 15px;
+            border-right: 1px solid black;
+        }
+        .main {
+            padding: 15px;
+        }
+        .main__content {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .main__article {
+            width: 50%;
+        }
+        .carousel {
+            flex-grow: 1;
+        }
+        .carousel__item {
+            width: 200px;
+            height: 120px;
+        }
+        .carousel__item img {
+            width: 100%;
+            height: 100%;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form__submit-btn {
+            
+        }
+        
     </style>
 </head>
 <body>
-    
-    <div class="somediv">
-        some text inside this div
+    <div id="app">
+        <div class="main">
+            <div class="main__content">
+                <div class="main__article">
+                    <p>Пожарная сигнализация — совокупность технических средств для обнаружения загорания, сообщения о месте его возникновения и обработки сигнала, также процесс получения, обработки, передачи и представления информации о пожаре в заданном виде с помощью данных технических средств. В случае, если речь идет только о взаимодействующих технических средствах используются термины: "установка пожарной сигнализации", "cистема пожарной сигнализации". Совокупность технических средств охранной и пожарной сигнализации называется "охранно-пожарная сигнализация". Для совокупности пожарного извещателя и приемного устройства ранее использовался термин сигнализатор загорания.
+
+                        Пожарная сигнализация являются разновидностью измерительных информационных систем, включает в себя измерительные устройства и средства обработки информации. В отличие от большинства измерительных систем, установки пожарной сигнализации определяют не количественное значение контролируемого параметра, а лишь его отклонение в сторону больше допустимой. Обработка результатов сводится в основном к получению данных о месте возникновения пожароопасной ситуации. Требования к быстродействию систем являются крайне жесткими наряду с почти полным отсутствием требований к накоплению информации.</p>
+                </div>
+            
+                <div class="carousel">
+                    <div class="carousel__item"><img src="./assets/slider-img.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img2.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img3.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img4.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img2.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img3.jpg" alt=""></div>
+                    <div class="carousel__item"><img src="./assets/slider-img4.jpg" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="form">
+            <h1>Форма</h1>
+            <div class="form__wrp">
+                <div class="form__field">
+                    <h3>Почта</h3>
+                    <input class="form__email-field" type="text">
+                </div>
+                <div class="form__field">
+                    <h3>Имя</h3>
+                    <input class="form__name-field" type="text">
+                </div>
+                <div class="form__field">
+                    <h3>Фамилия</h3>
+                    <input class="form__last-name-field" type="text">
+                </div>
+            <button class="form__submit-btn">Отправить</button>
+            </div>
+        </div>
     </div>
+</div>
     
     <script type="text/javascript" src="./jquery.js"></script>
+    <script type="text/javascript" src="./Inputmask-5.x/dist/inputmask.min.js"></script>
+    <script type="text/javascript" src="./Inputmask-5.x/dist/jquery.inputmask.min.js"></script>
+    <script type="text/javascript" src="./flickity-master/dist/flickity.pkgd.min.js"></script>
     <script>
+
+            
+        $(document).ready(function() {   
+            $('.form__email-field').inputmask({
+                mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+                greedy: false,
+                onBeforePaste: function (pastedValue, opts) {
+                pastedValue = pastedValue.toLowerCase();
+                return pastedValue.replace("mailto:", "");
+                },
+                definitions: {
+                '*': {
+                    validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~\-]",
+                    casing: "lower"
+                }
+                }
+            });
+
+            $('.form__submit-btn').click(() => {
+                const email = $(".form__email-field").val()
+                const name = $(".form__name-field").val()
+                const lastName = $(".form__last-name-field").val()
+
+                const postObject = {
+                    email: email,
+                    name: name,
+                    lastName: lastName
+                }
+
+                $.ajax({
+                    url: 'http://jsonplaceholder.typicode.com/posts',
+                    success: (data) => {
+                        console.log(data)
+                    }
+                })
+
+            })
 
             function getRandomColor() {
                 var letters = '0123456789ABCDEF';
@@ -32,14 +149,18 @@
                 return color;
             }
 
-        $('.somediv').click(() => {
-            if ($('.somediv').width() > 500) {
-                $('.somediv').css('width', 100 + 'px') 
-                return
-            }
-            $('.somediv').css('width', $('.somediv').width() + 100 + 'px')
-            $(".somediv").css("background-color", getRandomColor())
-        })
+            $('.somediv').click(() => {
+                if ($('.somediv').width() > 500) {
+                    $('.somediv').css('width', 100 + 'px') 
+                    return
+                }
+                $('.somediv').css('width', $('.somediv').width() + 100 + 'px')
+                $(".somediv").css("background-color", getRandomColor())
+            })
+
+            $('.carousel').flickity();
+            $("#contactsForm").inputmask("email")
+        });
         
     </script>
 </body>
